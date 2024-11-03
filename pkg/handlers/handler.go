@@ -28,6 +28,8 @@ func (h *Handler) DoAction(arguments []string) error {
 		return h.MarkStatusInProgress(arguments)
 	case "mark-done":
 		return h.MarkStatusDone(arguments)
+	case "list":
+		return h.GetAllTasks()
 	}
 	return nil
 }
