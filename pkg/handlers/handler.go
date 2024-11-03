@@ -17,6 +17,7 @@ func NewHandler(storage *os.File) *Handler {
 
 func (h *Handler) DoAction(arguments []string) error {
 	action := strings.ToLower(arguments[1])
+	argument := arguments[2]
 	switch action {
 	case "add":
 		return h.Add(arguments)
@@ -29,7 +30,11 @@ func (h *Handler) DoAction(arguments []string) error {
 	case "mark-done":
 		return h.MarkStatusDone(arguments)
 	case "list":
-		return h.GetAllTasks()
+		if len(argument) != 0 {
+			return h.GetByStatus(argument)
+		} else {
+			return h.GetAllTasks()
+		}
 	}
 	return nil
 }
