@@ -21,7 +21,7 @@ func (h *Handler) DoAction(arguments []string) error {
 	case "add":
 		return h.Add(arguments)
 	case "update":
-		UpdateTask(arguments)
+		return h.UpdateTask(arguments)
 	case "delete":
 		DeleteTask(arguments)
 	}
