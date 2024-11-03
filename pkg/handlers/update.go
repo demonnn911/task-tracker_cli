@@ -25,17 +25,12 @@ func (h *Handler) UpdateTask(arguments []string) error {
 	if err := decoder.Decode(&tasks); err != nil {
 		return err
 	}
-	currentTask, err := getCurrentTask(id, tasks)
+	index, currentTask, err := getCurrentTask(id, tasks)
 	if err != nil {
 		return err
 	}
 	inputUpdateData(&currentTask, updateData)
-	for i, task := range tasks {
-		if task.Id == id {
-			tasks[i] = currentTask
-			break
-		}
-	}
+	tasks[index] = currentTask
 	h.storage.Seek(0, 0)
 	encoder := json.NewEncoder(h.storage)
 	if err := encoder.Encode(&tasks); err != nil {

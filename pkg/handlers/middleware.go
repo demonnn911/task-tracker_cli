@@ -40,20 +40,21 @@ func getId() (int, error) {
 	}
 }
 
-func getCurrentTask(id int, tasks []models.Task) (models.Task, error) {
+func getCurrentTask(id int, tasks []models.Task) (int, models.Task, error) {
 	var currentTask models.Task
-	found := false
-	for _, task := range tasks {
+	index, err := verifyId(id, tasks)
+	if err != nil {
+		return index, currentTask, err
+	}
+	return index, tasks[index], nil
+}
+func verifyId(id int, tasks []models.Task) (int, error) {
+	for i, task := range tasks {
 		if task.Id == id {
-			currentTask = task
-			found = true
-			break
+			return i, nil
 		}
 	}
-	if !found {
-		return currentTask, errors.New("there is no task with such id")
-	}
-	return currentTask, nil
+	return 0, errors.New("there is no task with such id")
 }
 
 func inputUpdateData(currentTask *models.Task, updateData models.UpdateTaskData) {
