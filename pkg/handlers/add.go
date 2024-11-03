@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"io"
+	"os"
 	"task-tracker_cli/models"
 	"time"
 )
@@ -13,10 +14,11 @@ func (h *Handler) Add(arguments []string) error {
 	if err != nil && err != io.EOF {
 		return err
 	}
+	fmt.Println(os.Args)
 	task := models.Task{
 		Id:          id,
 		Name:        arguments[2],
-		Description: arguments[3],
+		Description: checkDescription(),
 		Status:      "todo",
 		CreatedAt:   time.Now().Format("2006-01-02 15:04:05 MST"),
 		UpdatedAt:   time.Now().Format("2006-01-02 15:04:05 MST"),
